@@ -1,0 +1,24 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: yii2
+      MYSQL_USER: yii2
+      MYSQL_PASSWORD: yii2
+      MYSQL_ROOT_PASSWORD: root
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    volumes:
+      - yii2-db:/var/lib/mysql
+volumes:
+  yii2-db:
