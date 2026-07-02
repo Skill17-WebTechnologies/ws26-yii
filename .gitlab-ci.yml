@@ -1,7 +1,7 @@
 variables:
   # Port the container serves on inside the pod. The Service/Ingress stay on 80 externally
   # and route to this port, so `docker compose up` and the cluster stay consistent.
-  APP_PORT: "8080"
+  APP_PORT: "80"
 
 stages:
   - build
