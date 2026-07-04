@@ -1,9 +1,8 @@
 <?php
 
+// SQLite only — no external database server. The database is a self-contained file
+// under runtime/, created on first migrate.
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=db;dbname=yii2',
-    'username' => 'yii2',
-    'password' => 'yii2',
-    'charset' => 'utf8mb4',
+    'dsn' => 'sqlite:' . dirname(__DIR__) . '/runtime/database.sqlite',
 ];

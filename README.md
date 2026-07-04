@@ -1,7 +1,7 @@
 # Yii 2.0.54 — WSC2026
 
-A real **Yii 2.0.54** application (WorldSkills 2026 Web Technologies, TP17) with a bundled
-**MySQL 8.4** database. On start it waits for the database and runs a migration.
+A real **Yii 2.0.54** application (WorldSkills 2026 Web Technologies, TP17) backed by a
+self-contained **SQLite** database — no database server required. On start it runs a migration.
 
 ## Run it
 
@@ -9,8 +9,8 @@ A real **Yii 2.0.54** application (WorldSkills 2026 Web Technologies, TP17) with
 docker compose up --build
 ```
 
-Then open **http://localhost**. The database is a `db` service (MySQL 8.4) and its data
-persists in a Docker volume. Stop with `docker compose down` (add `-v` to also drop the DB).
+Then open **http://localhost**. There is no database service: the app uses a SQLite file
+(`runtime/database.sqlite`) created inside the container at startup. Stop with `docker compose down`.
 
 ## Develop
 
@@ -22,17 +22,17 @@ docker compose up --build
 
 Edit **controllers/ and views/** to change routes, controllers and views.
 
-To run it natively instead you need **PHP 8.3**, **Composer 2.9.5** and a local **MySQL 8.4** (only needed for the native workflow; Docker bundles MySQL for you). Then:
+To run it natively instead you need **PHP 8.3** (with `pdo_sqlite`) and **Composer 2.9.5**. Then:
 
 ```bash
 composer install
 php yii serve
 ```
 
-(point the app at your own MySQL and create the `yii2` database first).
+(the SQLite file is created automatically on first migrate).
 
 ## Stack
 
 - PHP 8.3 / Composer 2.9.5
 - Yii 2.0.54
-- MySQL 8.4
+- SQLite (bundled, no server)
