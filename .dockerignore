@@ -3,3 +3,5 @@ node_modules
 runtime/*
 web/assets/*
 *.log
+.git
+.env
