@@ -4,7 +4,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         git unzip libzip-dev libicu-dev libonig-dev libxml2-dev libsqlite3-dev \
         libpng-dev libjpeg-dev libfreetype6-dev \
     && docker-php-ext-configure gd --with-jpeg --with-freetype \
-    && docker-php-ext-install -j"$(nproc)" intl pdo_sqlite zip bcmath gd exif pcntl sockets mbstring dom xml \
+    # pdo_mysql is what config/db.php uses: the app talks to the competitor's own
+    # MySQL database, configured entirely through .env / .env.prod. Without it the
+    # app fails with "could not find driver" the moment it is pointed at MySQL.
+    # mysqlnd ships with the PHP image, so it needs no extra system library.
+    # (`sqlite3` is deliberately absent: it is already compiled in, and naming it
+    # here fails the build with "Cannot find config.m4".)
+    && docker-php-ext-install -j"$(nproc)" intl pdo_mysql pdo_sqlite zip bcmath gd exif pcntl sockets mbstring dom xml \
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY composer.json composer.lock ./
