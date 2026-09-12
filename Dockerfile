@@ -13,6 +13,11 @@ RUN composer config -g repos.packagist composer "$COMPOSER_REGISTRY"
 RUN composer install --no-interaction --prefer-dist --no-scripts --no-security-blocking
 COPY . .
 COPY docker-entrypoint.sh /usr/local/bin/entrypoint
-RUN chmod +x /usr/local/bin/entrypoint && chmod -R 777 runtime web/assets
+# Strip any CR before making the entrypoint executable. .gitattributes already
+# forces LF on checkout, but that only helps a fresh clone — this keeps a working
+# copy that was checked out before it, or copied off a Windows share, from
+# producing "env: 'bash\r': No such file or directory" and exit 127.
+RUN sed -i 's/\r$//' /usr/local/bin/entrypoint \
+    && chmod +x /usr/local/bin/entrypoint && chmod -R 777 runtime web/assets
 EXPOSE 80
 ENTRYPOINT ["entrypoint"]
