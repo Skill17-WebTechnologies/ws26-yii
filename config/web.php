@@ -47,14 +47,17 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
+            // Enabled so the connection check answers on the same URL as every
+            // other WSC2026 template: curl -fsS http://localhost/api/db-check
+            // Without pretty URLs Yii would only route it as
+            // /index.php?r=site/db-check.
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'api/db-check' => 'site/db-check',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
